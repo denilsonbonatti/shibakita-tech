@@ -26,26 +26,10 @@ def conectar():
         conexao = pyodbc.connect(string_conexao)
         
         # Se chegou aqui, deu certo!
-        #messagebox.showinfo("Sucesso", "Conectado ao banco de dados com êxito!")
+        messagebox.showinfo("Sucesso", "Conectado ao banco de dados com êxito!")
         return conexao
         
     except Exception as e:
         # Se houver erro, ele cai aqui
         messagebox.showerror("Erro de Conexão", f"Não foi possível conectar:\n{e}")
         return None
-
-def realizar_login(login_digitado, senha_digitada):
-    """Verifica na tabela de Usuarios se as credenciais batem."""
-    conn = conectar()
-    if conn:
-        cursor = conn.cursor()
-        # Buscamos o perfil para saber se o usuário existe
-        comando = "SELECT Perfil FROM Usuarios WHERE Login = ? AND Senha = ?"
-        cursor.execute(comando, (login_digitado, senha_digitada))
-        
-        resultado = cursor.fetchone()
-        conn.close()
-        
-        if resultado:
-            return resultado[0] # Retorna 'Administrador' ou 'Operador'
-    return None
