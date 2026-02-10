@@ -58,5 +58,3 @@ def abrir_menu(perfil):
 
 
     menu_app.mainloop()
-
-abrir_menu("Vai")
