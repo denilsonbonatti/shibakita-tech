@@ -2,12 +2,12 @@ import pyodbc
 from tkinter import messagebox
 
 # Configurações do Servidor e Banco
-SERVIDOR = 'aulasenacjab.database.windows.net'
+SERVIDOR = 'xxxx'
 BANCO = 'ShibakitaEletro'
 
 # Credenciais do Usuário (definidas no portal Azure)
-USUARIO_APP = 'azure-senac' 
-SENHA_APP = 'MinhaSenha123##'
+USUARIO_APP = 'xxxx' 
+SENHA_APP = 'xxxx'
 
 def conectar():
     string_conexao = (
@@ -67,4 +67,5 @@ def salvar_cliente(nome, cpf, telefone, endereco):
         except Exception as e:
             messagebox.showerror("Erro SQL", f"Erro ao salvar: {e}")
             return False
+
     return False
