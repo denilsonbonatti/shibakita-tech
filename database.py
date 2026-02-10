@@ -2,12 +2,12 @@ import pyodbc
 from tkinter import messagebox
 
 # Configurações do Servidor e Banco
-SERVIDOR = 'xxx'
+SERVIDOR = 'aulasenacjab.database.windows.net'
 BANCO = 'ShibakitaEletro'
 
 # Credenciais do Usuário (definidas no portal Azure)
-USUARIO_APP = 'xxxx' 
-SENHA_APP = 'xxxx'
+USUARIO_APP = 'azure-senac' 
+SENHA_APP = 'MinhaSenha123##'
 
 def conectar():
     string_conexao = (
