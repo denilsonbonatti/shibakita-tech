@@ -34,7 +34,7 @@ def acao_login():
     perfil = realizar_login(usuario, senha)
     
     if perfil:
-        #messagebox.showinfo("Login", f"Bem-vindo! Perfil: {perfil}")
+        messagebox.showinfo("Login", f"Bem-vindo! Perfil: {perfil}")
         janela.destroy() 
         abrir_menu(perfil)
     else:
