@@ -2,6 +2,7 @@ import customtkinter as ctk
 from tkinter import messagebox
 import os
 from PIL import Image
+from clientes import abrir_janela_clientes
 
 def abrir_menu(perfil):
     """Função que constrói e exibe a janela do Menu Principal."""
@@ -18,11 +19,11 @@ def abrir_menu(perfil):
 
     # --- FUNÇÕES DE NAVEGAÇÃO ---
     def abrir_clientes():
-        messagebox.showinfo("Navegação", "Abrindo módulo de Clientes...")
-
+        #messagebox.showinfo("Navegação", "Abrindo módulo de Clientes...")
+        abrir_janela_clientes()
     def abrir_produtos():
         messagebox.showinfo("Navegação", "Abrindo módulo de Produtos...")
-
+        
     def abrir_vendas():
         messagebox.showinfo("Navegação", "Abrindo módulo de Vendas...")
 
