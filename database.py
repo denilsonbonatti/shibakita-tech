@@ -1,13 +1,15 @@
 import pyodbc
 from tkinter import messagebox
 
-# Configurações do Servidor e Banco
-SERVIDOR = 'xxxx'
-BANCO = 'ShibakitaEletro'
+#Configurações do Servidor e Banco de dados
 
-# Credenciais do Usuário (definidas no portal Azure)
-USUARIO_APP = 'xxxx' 
-SENHA_APP = 'xxxx'
+SERVIDOR = "xxx"
+BANCO = "ShibakitaEletro"
+
+#Credenciais de usuário
+
+USUARIO_APP = "azure-senac"
+SENHA_APP = "xxx"
 
 def conectar():
     string_conexao = (
@@ -20,7 +22,7 @@ def conectar():
         "TrustServerCertificate=no;"
         "Connection Timeout=30;"
     )
-    
+
     try:
         # Tenta estabelecer a conexão
         conexao = pyodbc.connect(string_conexao)
@@ -33,7 +35,7 @@ def conectar():
         # Se houver erro, ele cai aqui
         messagebox.showerror("Erro de Conexão", f"Não foi possível conectar:\n{e}")
         return None
-
+    
 def realizar_login(login_digitado, senha_digitada):
     """Verifica na tabela de Usuarios se as credenciais batem."""
     conn = conectar()
@@ -50,22 +52,3 @@ def realizar_login(login_digitado, senha_digitada):
             return resultado[0] # Retorna 'Administrador' ou 'Operador'
     return None
 
-def salvar_cliente(nome, cpf, telefone, endereco):
-    """Insere um novo cliente no banco de dados."""
-    conn = conectar()
-    if conn:
-        try:
-            cursor = conn.cursor()
-            comando = """
-                INSERT INTO Clientes (Nome, CPF, Telefone, Endereco)
-                VALUES (?, ?, ?, ?)
-            """
-            cursor.execute(comando, (nome, cpf, telefone, endereco))
-            conn.commit()
-            conn.close()
-            return True
-        except Exception as e:
-            messagebox.showerror("Erro SQL", f"Erro ao salvar: {e}")
-            return False
-
-    return False
