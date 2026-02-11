@@ -4,7 +4,7 @@ from database import realizar_login
 import os
 from PIL import Image
 
-def acao_login(event=None):
+def acao_login():
     usuario = ent_usuario.get()
     senha = ent_senha.get()
     
@@ -41,8 +41,6 @@ janela.resizable(False, False)
 frame = ctk.CTkFrame(master=janela, corner_radius=15)
 frame.pack(pady=40, padx=40, fill="both", expand=True)
 
-# Isso faz com que o Enter funcione em qualquer lugar da janela
-janela.bind("<Return>", acao_login)
 
 # 4. Widgets
 
