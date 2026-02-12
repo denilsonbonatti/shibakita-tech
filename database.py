@@ -49,3 +49,22 @@ def realizar_login(login_digitado, senha_digitada):
         if resultado:
             return resultado[0] # Retorna 'Administrador' ou 'Operador'
     return None
+    
+def salvar_cliente(nome, cpf, telefone, endereco):
+    """Insere um novo cliente no banco de dados."""
+    conn = conectar()
+    if conn:
+        try:
+            cursor = conn.cursor()
+            comando = """
+                INSERT INTO Clientes (Nome, CPF, Telefone, Endereco)
+                VALUES (?, ?, ?, ?)
+            """
+            cursor.execute(comando, (nome, cpf, telefone, endereco))
+            conn.commit()
+            conn.close()
+            return True
+        except Exception as e:
+            messagebox.showerror("Erro SQL", f"Erro ao salvar: {e}")
+            return False
+    return False
