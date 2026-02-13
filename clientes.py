@@ -46,6 +46,48 @@ def abrir_janela_clientes():
         else:
             lbl_status.configure(text="Erro ao salvar cliente.", text_color="#ef4444")
 
+    # --- FUNÇÃO DE BUSCA (AÇÃO DA LUPA) ---
+    
+    def acao_buscar():
+        # 1. Se o campo estiver desativado, ativamos e limpamos para uma nova busca
+        if ent_id.cget("state") == "disable":
+            ent_id.configure(state="normal")
+            ent_id.delete(0, "end")
+            ent_id.focus_set()
+            print("Vai")
+            return # Interrompemos aqui para o usuário poder digitar o ID
+
+        # 2. Se o campo já estiver normal, prosseguimos com a busca
+        id_buscado = ent_id.get().strip()
+
+        if not id_buscado:
+            messagebox.showwarning("Aviso", "Por favor, digite um ID para pesquisar!")
+            ent_id.focus_set()
+            return
+
+        # 3. Realiza a busca no banco de dados
+        dados = buscar_cliente_por_id(id_buscado)
+
+        if dados:
+            # Limpamos e preenchemos os campos com os dados retornados
+            ent_nome.delete(0, "end")
+            ent_nome.insert(0, dados["nome"])
+
+            ent_cpf.delete(0, "end")
+            ent_cpf.insert(0,dados["cpf"])
+
+            ent_tel.delete(0, "end")
+            ent_tel.insert(0, dados["telefone"])
+
+            ent_end.delete(0, "end")
+            ent_end.insert(0, dados["endereco"])
+
+
+            lbl_status.configure(text=f"Cliente ID {id_buscado} encontrado!", text_color="#22c55e")
+        else:
+            messagebox.showerror("Erro", f"Cliente com ID {id_buscado} não encontrado!")
+            ent_id.focus_set()
+
 
     # --- LAYOUT ---
     
@@ -67,7 +109,7 @@ def abrir_janela_clientes():
     ent_id.pack(side="left", padx=(0, 10))
 
     # Botão de Lupa (Usamos o emoji 🔍 para facilitar o ensino sem arquivos externos)
-    btn_lupa = ctk.CTkButton(frame_id_linha, text="🔍 Buscar", width=80,
+    btn_lupa = ctk.CTkButton(frame_id_linha, text="🔍 Buscar", width=80, command=acao_buscar,
                              fg_color="#3b82f6", hover_color="#2563eb")
     btn_lupa.pack(side="left")
 
