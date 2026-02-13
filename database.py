@@ -2,16 +2,16 @@ import pyodbc
 from tkinter import messagebox
 
 # Configurações do Servidor e Banco
-SERVIDOR = 'xxx'
+SERVIDOR = 'xxxx'
 BANCO = 'ShibakitaEletro'
 
 # Credenciais do Usuário (definidas no portal Azure)
-USUARIO_APP = 'xxxx' 
+USUARIO_APP = 'xxxxx' 
 SENHA_APP = 'xxxx'
 
 def conectar():
     string_conexao = (
-        f"Driver={{ODBC Driver 17 for SQL Server}};" 
+        f"Driver={{SQL Server}};" 
         f"Server=tcp:{SERVIDOR},1433;"               
         f"Database={BANCO};"
         f"UID={USUARIO_APP};"
@@ -68,3 +68,31 @@ def salvar_cliente(nome, cpf, telefone, endereco):
             messagebox.showerror("Erro SQL", f"Erro ao salvar: {e}")
             return False
     return False
+
+def buscar_cliente_por_id(id_cliente):
+    """Procura um cliente no Azure pelo ID e retorna os seus dados."""
+    conn = conectar()
+    if conn:
+        try:
+            cursor = conn.cursor()
+            # Comando SQL para selecionar os dados específicos
+            comando = "SELECT Nome, CPF, Telefone, Endereco FROM Clientes WHERE ID_Cliente = ?"
+            cursor.execute(comando, (id_cliente,))
+            
+            resultado = cursor.fetchone()
+            conn.close()
+            
+            if resultado:
+                # Retornamos os dados organizados
+                return {
+                    "nome": resultado[0],
+                    "cpf": resultado[1],
+                    "telefone": resultado[2],
+                    "endereco": resultado[3]
+                }
+            else:
+                return None
+        except Exception as e:
+            messagebox.showerror("Erro SQL", f"Erro ao salvar: {e}")
+            return None
+    return None

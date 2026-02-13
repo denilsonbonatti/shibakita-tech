@@ -1,6 +1,6 @@
 import customtkinter as ctk
 from tkinter import messagebox
-from database import conectar, salvar_cliente
+from database import conectar, salvar_cliente,buscar_cliente_por_id
 
 def abrir_janela_clientes():
     """Cria a interface para o CRUD de Clientes."""
@@ -46,6 +46,7 @@ def abrir_janela_clientes():
         else:
             lbl_status.configure(text="Erro ao salvar cliente.", text_color="#ef4444")
 
+
     # --- LAYOUT ---
     
     # Título Principal
@@ -56,10 +57,19 @@ def abrir_janela_clientes():
     frame_form = ctk.CTkFrame(janela_clie, corner_radius=10)
     frame_form.pack(padx=30, pady=10, fill="both", expand=True)
 
-    # Campo ID (Desabilitado - Gerado pelo Banco)
-    ctk.CTkLabel(frame_form, text="ID Cliente (Auto):", font=("Roboto", 12)).pack(anchor="w", padx=20, pady=(15, 0))
-    ent_id = ctk.CTkEntry(frame_form, placeholder_text="ID", state="disabled", fg_color="#2b2b2b")
-    ent_id.pack(fill="x", padx=20, pady=5)
+    # --- CAMPO ID + BOTÃO LUPA (Layout Lado a Lado) ---
+    ctk.CTkLabel(frame_form, text="ID Cliente:", font=("Roboto", 12)).pack(anchor="w", padx=20, pady=(15, 0))
+
+    frame_id_linha = ctk.CTkFrame(frame_form, fg_color="transparent")
+    frame_id_linha.pack(fill="x", padx=20, pady=5)
+
+    ent_id = ctk.CTkEntry(frame_id_linha, placeholder_text="id", state="disable", width=120)
+    ent_id.pack(side="left", padx=(0, 10))
+
+    # Botão de Lupa (Usamos o emoji 🔍 para facilitar o ensino sem arquivos externos)
+    btn_lupa = ctk.CTkButton(frame_id_linha, text="🔍 Buscar", width=80,
+                             fg_color="#3b82f6", hover_color="#2563eb")
+    btn_lupa.pack(side="left")
 
     # Campo Nome
     ctk.CTkLabel(frame_form, text="Nome Completo:", font=("Roboto", 12)).pack(anchor="w", padx=20, pady=(10, 0))
@@ -87,7 +97,7 @@ def abrir_janela_clientes():
 
     # Botão Salvar (Create)
     btn_salvar = ctk.CTkButton(frame_botoes, text="SALVAR", fg_color="#22c55e", hover_color="#16a34a", 
-                               font=("Roboto", 14, "bold"), width=120)
+                               font=("Roboto", 14, "bold"), width=120, command=acao_salvar)
     btn_salvar.grid(row=0, column=0, padx=5, pady=5)
 
     # Botão Atualizar (Update)
